@@ -2,22 +2,26 @@
 <div class="span9">
   <div class="well well-small">
   <h4>Featured Products <small class="pull-right">200+ featured products</small></h4>
+
   <div class="row-fluid">
   <div id="featured" class="carousel slide">
   <div class="carousel-inner">
     <div class="item active">
     <ul class="thumbnails">
+      <?php while ($row2 = mysqli_fetch_assoc($getfeatpro)) { ?>
+        
     <li class="span3">
       <div class="thumbnail">
       <i class="tag"></i>
-      <a href="product_details.html"><img src="themes/images/products/b1.jpg" alt=""></a>
+      <a href="product.php?id=<?php echo $row2['random']; ?>"><img src="admin/uploads/products/<?php echo $row2['img_1']; ?>" alt="<?php echo $row['pro_name']; ?>"></a>
       <div class="caption">
-        <h5>Product name</h5>
-        <h4><a class="btn" href="product_details.html">VIEW</a> <span class="pull-right">$222.00</span></h4>
+        <h5><?php echo $row2['pro_name']; ?></h5>
+        <h4><span style="color: #ee0000; text-decoration: line-through solid #ff0000;  ">&#8358;<?php echo $row2['pro_price'];?></span> <span class="pull-right">&#8358;<?php echo $row2['pro_disc']; ?></span></h4>
       </div>
       </div>
     </li>
-    <li class="span3">
+      <?php } ?>
+    <!-- <li class="span3">
       <div class="thumbnail">
       <i class="tag"></i>
       <a href="product_details.html"><img src="themes/images/products/b2.jpg" alt=""></a>
@@ -46,7 +50,7 @@
          <h4><a class="btn" href="product_details.html">VIEW</a> <span class="pull-right">$222.00</span></h4>
       </div>
       </div>
-    </li>
+    </li> -->
     </ul>
     </div>
      <div class="item">

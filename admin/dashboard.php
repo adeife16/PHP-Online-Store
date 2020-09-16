@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="assets/css/sb-admin-2.css" rel="stylesheet">
  </head>
 <body id="page-top">
 
@@ -305,7 +305,37 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+          <?php
+                if (isset($errors)) {
 
+
+                 if (count($errors) > 0) {
+
+
+                    foreach ($errors as $error) {
+                      echo "<span class='alert alert-danger'>";
+                      echo $error;
+                      echo "</span><br><br>";
+
+                    }
+
+                }
+
+                }?>
+                <?php
+                if (isset($success)) {?>
+
+
+                  <?php if (count($success) > 0) {?>
+<span class="alert alert-success">
+
+                    <?php foreach ($success as $suc) {
+                      echo $suc."<br>";
+
+                    }?>
+                  </span>
+                <?php }
+                 }?>
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -392,6 +422,57 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            
+            <div class="table-responsive">
+              <h3>Featured Products</h3>
+              <table class="table table-striped ">
+                <tr>
+                <th class="text-center">Product</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Discount</th>
+                
+                <th class="text-center">Action</th>
+                <th></th>
+                </tr>
+                <?php while ($row = mysqli_fetch_assoc($getfeatpro)) { ?>
+                  
+                <tr>
+                  <td><img src="uploads/products/<?php echo $row['img_1']; ?>" class="img-fluid img-thumbnail rounded"  ></td>
+                  <td class="text-center"><?php echo $row['pro_name']; ?></td>
+                  <td class="text-center"><?php echo $row['cat_id']; ?></td>
+                  <td class="text-center">&#8358;<?php echo $row['pro_price'];?> </td>
+                  <td class="text-center">&#8358;<?php echo $row['pro_disc'];?> </td>
+                  <td><button class="btn btn-danger"><a href="#" data-toggle="modal" data-target="#featdelete"><i class="fa fa-trash white"></i></a></button></td>
+                   <div class="modal fade" id="featdelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Product?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" style="color: red;">Product would only be removed from the featured product list not permanently!</div>
+                      <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger" href="dashboard.php?del=<?php echo $row['random'];?>">Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  <td><button class="btn btn-success"><a href="productedit.php?edit=<?php echo $row['random']; ?>"> <i class="fa fa-pen white" ></i> </a></button></td>
+                </tr>
+
+                <?php } ?>
+              </table>
+
+            </div>
+
+          </div>
+          
 
           <!-- Content Row -->
 
@@ -610,6 +691,7 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
+
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

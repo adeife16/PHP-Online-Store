@@ -185,6 +185,7 @@ if (isset($_GET['add'])) {
 	$add = $_GET['add'];
 
 	$query4 = mysqli_query($con, "INSERT INTO `featured_product`(`product_id`) VALUES('$add')" );
+	array_push($success, "Product Added to Featured List!");
 	header('location: prolist.php');
 }
 
