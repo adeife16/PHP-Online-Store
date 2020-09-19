@@ -99,5 +99,36 @@
 </div>
 </div>
 <span id="themesBtn"></span>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".Add").click(function(e){
+      e.preventDefault();
+
+      var $form = $(this).closest(".cart-form");
+      var random = $form.find(".random").val();
+      var name = $form.find(".name").val();
+      var price = $form.find(".disc").val();
+      var qty = $form.find(".qty").val();
+      var user = $form.find(".user").val();
+
+
+      $.ajax({
+        url: 'cart.inc.php',
+        method: 'get',
+        data: {
+          random:random,
+          name:name,
+          price:price,
+          qty:qty,
+          user:user
+        },
+        success:function(response){
+          $(".msg").html(response);
+          console.log(response);
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>

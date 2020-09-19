@@ -28,7 +28,8 @@ if (isset($_POST['login']) && $_POST['login']!="") {
 
   if (mysqli_num_rows($check_profile) == 1) {
 
-    $_SESSION['username'] = $user; 
+    $_SESSION['username'] = $user;
+    // $_SESSION['cart'] = array();
 
     array_push($success, "Login Success!");
 

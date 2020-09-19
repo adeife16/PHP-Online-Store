@@ -1,4 +1,7 @@
-<?php require_once 'includes/main.inc.php'; ?>
+<?php require_once 'includes/main.inc.php'; 
+      
+?>
+<div class="msg"></div>
 <div class="span9">
   <div class="well well-small">
   <h4>Featured Products <small class="pull-right">200+ featured products</small></h4>
@@ -9,7 +12,7 @@
     <div class="item active">
     <ul class="thumbnails">
       <?php while ($row2 = mysqli_fetch_assoc($getfeatpro)) { ?>
-        
+                
     <li class="span3">
       <div class="thumbnail">
       <i class="tag"></i>
@@ -20,6 +23,7 @@
       </div>
       </div>
     </li>
+        
       <?php } ?>
     <!-- <li class="span3">
       <div class="thumbnail">
@@ -183,7 +187,6 @@
 </div>
 <h4>Latest Products </h4>
 <?php while ($list = mysqli_fetch_assoc($sql)) { ?>
-
     <ul class="thumbnails">
     <li class="span3">
       <div class="thumbnail">
@@ -194,14 +197,33 @@
         <?php echo $list['pro_desc'] ?>
         </p>
 
-        <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">&#8358;<?php echo $list['pro_price']; ?><a></h4>
+        <h4 style="text-align:center"> 
+          PRICE :
+          <span style="text-decoration: line-through red solid; color: rgba(50,50,50,0.5);">
+          &#8358;<?php echo $list['pro_price']; ?></span>
+          <span style="color: green;">&#8358;<?php echo $list['pro_disc']; ?></span> 
+        <form action="" class="cart-form">
+          <input type="hidden" name="random" class="random" value="<?php echo $list['random']; ?>">
+          <input type="hidden" name="name" class="name" value="<?php echo $list['pro_name']; ?>">
+          <input type="hidden" name="disc" class="disc" value="<?php echo $list['pro_disc']; ?>">
+          <input type="hidden" name="qty" class="qty" value="1">
+          <input type="hidden" name="user" class="user" value="<?php echo $_SESSION['username'] ?>">
+            <div class="form-group">
+          <input type="button" name="cart" class="btn btn-primary Add" value="Add to Cart">
+          </div>
+        </h4>
+</form>
+
       </div>
       </div>
     </li>
+
   <?php } ?>
     </ul>
 
 </div>
 </div>
+</div>
+<div>
 </div>
 </div>
