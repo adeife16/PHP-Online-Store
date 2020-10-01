@@ -9,7 +9,7 @@
       <a href="login.html">ADDRESSES</a>
       <a href="login.html">DISCOUNT</a>
       <a href="login.html">ORDER HISTORY</a>
-     </div>
+    </div>
     <div class="span3">
       <h5>INFORMATION</h5>
       <a href="contact.html">CONTACT</a>
@@ -17,7 +17,7 @@
       <a href="legal_notice.html">LEGAL NOTICE</a>
       <a href="tac.html">TERMS AND CONDITIONS</a>
       <a href="faq.html">FAQ</a>
-     </div>
+    </div>
     <div class="span3">
       <h5>OUR OFFERS</h5>
       <a href="#">NEW PRODUCTS</a>
@@ -25,24 +25,43 @@
       <a href="special_offer.html">SPECIAL OFFERS</a>
       <a href="#">MANUFACTURERS</a>
       <a href="#">SUPPLIERS</a>
-     </div>
+    </div>
     <div id="socialMedia" class="span3 pull-right">
       <h5>SOCIAL MEDIA </h5>
       <a href="#"><img width="60" height="60" src="themes/images/facebook.png" title="facebook" alt="facebook"/></a>
       <a href="#"><img width="60" height="60" src="themes/images/twitter.png" title="twitter" alt="twitter"/></a>
       <a href="#"><img width="60" height="60" src="themes/images/youtube.png" title="youtube" alt="youtube"/></a>
-     </div>
-   </div>
+    </div>
+  </div>
   <p class="pull-right">&copy; Bootshop</p>
 </div><!-- Container End -->
 </div>
 <!-- Placed at the end of the document so the pages load faster ============================================= -->
-<script src="themes/js/jquery.js" type="text/javascript"></script>
+
 <script src="themes/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="themes/js/google-code-prettify/prettify.js"></script>
-
+<!-- <script src=" js/angular.js"></script>
+<script src="js/app.js"></script> -->
 <script src="themes/js/bootshop.js"></script>
-  <script src="themes/js/jquery.lightbox-0.5.js"></script>
+<script src = "themes/js/jquery.js"></script>
+<script src="themes/js/jquery.lightbox-0.5.js"></script>
+<script>
+$(document).ready(function(){
+
+  var username = $("#session_user").val();
+
+  $.ajax({
+    type: 'POST',
+    url: 'getcart.php',
+    data:{user_name: username},
+    cache: false,
+    success: function(response){
+      $("#cart-icon").html(response);
+    }
+  });
+});
+</script>
+<script src="js/cart.js"></script>
 
 <!-- Themes switcher section ============================================================================================= -->
 <div id="secectionBox">
@@ -99,36 +118,5 @@
 </div>
 </div>
 <span id="themesBtn"></span>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $(".Add").click(function(e){
-      e.preventDefault();
-
-      var $form = $(this).closest(".cart-form");
-      var random = $form.find(".random").val();
-      var name = $form.find(".name").val();
-      var price = $form.find(".disc").val();
-      var qty = $form.find(".qty").val();
-      var user = $form.find(".user").val();
-
-
-      $.ajax({
-        url: 'cart.inc.php',
-        method: 'get',
-        data: {
-          random:random,
-          name:name,
-          price:price,
-          qty:qty,
-          user:user
-        },
-        success:function(response){
-          $(".msg").html(response);
-          console.log(response);
-        }
-      });
-    });
-  });
-</script>
 </body>
 </html>

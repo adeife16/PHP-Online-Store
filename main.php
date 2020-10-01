@@ -1,4 +1,6 @@
-<?php require_once 'includes/main.inc.php'; 
+<?php 
+  require_once 'includes/main.inc.php'; 
+  // require_once 'cart.inc.php';
       
 ?>
 <div class="msg"></div>
@@ -194,7 +196,7 @@
       <div class="caption">
         <h5><?php echo $list['pro_name']; ?></h5>
         <p>
-        <?php echo $list['pro_desc'] ?>
+        <?php echo $list['pro_desc']; ?>
         </p>
 
         <h4 style="text-align:center"> 
@@ -202,14 +204,14 @@
           <span style="text-decoration: line-through red solid; color: rgba(50,50,50,0.5);">
           &#8358;<?php echo $list['pro_price']; ?></span>
           <span style="color: green;">&#8358;<?php echo $list['pro_disc']; ?></span> 
-        <form action="" class="cart-form">
+        <form action="" id="cart-form" name="cart-form" method="post">
           <input type="hidden" name="random" class="random" value="<?php echo $list['random']; ?>">
           <input type="hidden" name="name" class="name" value="<?php echo $list['pro_name']; ?>">
           <input type="hidden" name="disc" class="disc" value="<?php echo $list['pro_disc']; ?>">
           <input type="hidden" name="qty" class="qty" value="1">
           <input type="hidden" name="user" class="user" value="<?php echo $_SESSION['username'] ?>">
             <div class="form-group">
-          <input type="button" name="cart" class="btn btn-primary Add" value="Add to Cart">
+          <input type="button" name="cart" class="btn btn-primary Add" id="add" value="Add to Cart">
           </div>
         </h4>
 </form>
@@ -227,3 +229,4 @@
 <div>
 </div>
 </div>
+<div id="errors"></div>

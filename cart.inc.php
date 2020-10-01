@@ -1,27 +1,41 @@
 <?php 
-require_once 'utilities/config.php';
-require_once 'utilities/functions.php';
+require 'utilities/config.php';
+require 'utilities/functions.php'; 
 
-if (isset($_POST['random'])) {
-	$random = $_POST['random'];
-	$name = $_POST['name'];
-	$price = $_POST['disc'];
-	$qty = $_POST['qty'];
-	$user = $_POST['user'];
 
-	$check = mysqli_query($con, "SELECT `product_id` from `orders` WHERE `product_id`='$random' AND `user_name`='$user' ");
+	$random = $_POST["random"];
+	$name =   $_POST["name"];
+	$price =  $_POST["price"];
+	$qty =    $_POST["qty"];
+	$user =   $_POST["user"];
+	// $result[] = array('random' =>$random, 'name'=>$name, 'price'=>$price, 'qty'=>$qty, 'user'=>$user);
+
+	$check = mysqli_query($con, "SELECT * from `cart` WHERE `product_id`='$random' AND `user_name`='$user' ");
 	while($row= mysqli_fetch_assoc($check)){
 	$oldqty = $row['quantity'];
 }
 	if (mysqli_num_rows($check) > 0) {
 		$newqty = intval($oldqty) + intval($qty);
-		$add = mysqli_query($con, "UPDATE `orders` SET `quantity`='$newqty'" );
+		$add = "UPDATE `cart` SET `quantity`='$newqty' WHERE `product_id`='$random'";
+		if($con->query($add) == TRUE){
+		}
+		
 	}
 	else{
-		$create = mysqli_query($con, "INSERT INTO `orders`(`product_id`,`product_name`,`product_price`,`quantity`,`total_price`,`user_name`,`ststus`,`datetime`) VALUES('$random','$name','$price','$qty','$user')");
-	}
-}
+$insert = "INSERT INTO cart( product_id, product_name, product_price, quantity, user_name, status, datetime ) VALUES('$random','$name','$price','$qty','$user','processing',Now())";
 
+if ($con->query($insert) == TRUE) {
+	// echo json_encode($result);
+}
+else{
+	echo 'Someting went wrong'.mysqli_error($con);
+}
+	}
+$count = "SELECT * FROM cart WHERE user_name = '$user' ";
+$que = $con->query($count);
+$num = mysqli_num_rows($que);
+
+echo $num;
 
 
 

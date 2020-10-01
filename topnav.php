@@ -32,25 +32,34 @@ require_once 'includes/topnav.inc.php';
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="themes/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="themes/images/ico/apple-touch-icon-57-precomposed.png">
 	<style type="text/css" id="enject"></style>
-  </head>
+</head>
 <body>
 <div id="header">
 <div class="container">
 <div id="welcomeLine" class="row">
 	<?php if (isset($_SESSION['username'])) { ?>
 	<div class="span6">Welcome!<strong> <?php echo $_SESSION['username']; ?></strong></div>
-<?php	} else{ ?>
+	<form action="" id="session" method="post" style="display: none;"><input type="hidden" id="session_user" value="<?php echo $_SESSION['username']; ?>"></form>
+<?php	} else{ 
+	$guest = rand();
+	?>
 	<div class="span6">Welcome!<strong> Guest</strong></div>
+	<form action="" id="session" method="post" style="display: none;"><input type="hidden" id="session_user" value="<?php echo $guest; ?>"></form>
 <?php } ?>
 	<div class="span6">
 	<div class="pull-right">
-		<a href="product_summary.html"><span class="">Fr</span></a>
+		<!-- <a href="product_summary.html"><span class="">Fr</span></a>
 		<a href="product_summary.html"><span class="">Es</span></a>
 		<span class="btn btn-mini">En</span>
 		<a href="product_summary.html"><span>&pound;</span></a>
-		<span class="btn btn-mini">$155.00</span>
-		<a href="product_summary.html"><span class="">$</span></a>
-		<a href="cart.php"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> [ 3 ] Itemes in your cart </span> </a>
+		<span class="btn btn-mini">$155.00</span> -->
+		<!-- <a href="product_summary.html"><span class="">$</span></a> -->
+<?php if(isset($_SESSION['username'])){?>
+		<a href="cart.php"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> <span id="cart-icon"></span> Items in your cart </span> </a>
+<?php } 
+else{ ?>
+	<span  class="btn btn-mini btn-primary" >Login to View Cart</span>
+<?php } ?>
 	</div>
 	</div>
 </div>

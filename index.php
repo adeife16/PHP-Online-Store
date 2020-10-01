@@ -1,5 +1,7 @@
-<?php require_once 'utilities/config.php';
+<?php
+require_once 'utilities/config.php';
       require_once 'utilities/functions.php';
+
 
 include 'topnav.php';
 include 'carousel.php';

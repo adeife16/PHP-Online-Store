@@ -34,7 +34,6 @@ if (isset($_POST['login']) && $_POST['login']!="") {
     array_push($success, "Login Success!");
 
     header('location: index.php');
-
   }
 
   else{
