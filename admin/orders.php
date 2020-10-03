@@ -1,8 +1,6 @@
 <?php
-require_once 'includes/prolist.inc.php';
-
+require_once 'includes/orders.inc.php';
  ?>
-
  <!DOCTYPE html>
  <html>
  <head>
@@ -12,7 +10,7 @@ require_once 'includes/prolist.inc.php';
   <meta name="description" content="">
   <meta name="author" content="">
 
- 	<title>Product List</title>
+ 	<title>Orders</title>
 
   <!-- Custom fonts for this template-->
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,7 +52,7 @@ require_once 'includes/prolist.inc.php';
       </div> -->
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <<li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link " href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
           <span>Products</span>
@@ -68,6 +66,7 @@ require_once 'includes/prolist.inc.php';
         </div>
       </li>
       <hr class="sidebar-divider">
+
 
       <li class="nav-item">
         <a class="nav-link" href="categories.php">
@@ -130,6 +129,8 @@ require_once 'includes/prolist.inc.php';
           </button>
 
 
+
+          <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
 
@@ -147,6 +148,15 @@ require_once 'includes/prolist.inc.php';
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Edit Profile
                 </a>
+                <!-- <a class="dropdown-item" href="">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div> -->
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -164,88 +174,105 @@ require_once 'includes/prolist.inc.php';
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Product List</h1>
-            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Print List</a>
           </div>
+                	<?php
+                if (isset($errors)) {
 
-          <table id="proList" class="table table-striped">
 
-          		<thead>
-          			<tr>
-          				<td>Product Name</td>
-          				<td>Description</td>
-          				<td>Category</td>
-          				<td>Price</td>
-          				<td>Discount</td>
-          				<td>Quantity</td>
-                  <td>Action</td>
-                  <td></td>
-                  <td>Add to Featured</td>
-          			</tr>
-          		</thead>
-              <tbody>
-                <?php if (!empty($data)) {
-                    foreach ($data as $key) { ?>
-                      <tr>
-                        <td><?php echo $key['pro_name']; ?></td>
-                        <td><?php echo $key['pro_desc']; ?></td>
-                        <td><?php echo $key['cat_id']; ?></td>
-                        <td><?php echo $key['pro_price']; ?></td>
-                        <td><?php echo $key['pro_disc']; ?></td>
-                        <td><?php echo $key['pro_qty']; ?></td>
-                        <td><button class="btn btn-warning"><a href="productedit.php?edit=<?php echo $key['random']; ?>"><i class="fa fa-pen white"></i></a></button></td>
+                 if (count($errors) > 0) {
 
-                        <td><button class="btn btn-danger"><a href="#" data-toggle="modal" data-target="#prodelete"><i class="fa fa-trash white"></i></a></button></td>
-                        <td><button class="btn btn-success"><a href="productedit.php?add=<?php echo $key['random']; ?>"> <i class="fa fa-plus white" ></i> </a></button></td>
 
-                      </tr>
+                		foreach ($errors as $error) {
+                      echo "<span class='alert alert-danger'>";
+                			echo $error;
+                      echo "</span><br><br>";
 
-                    <?php  }?>
-              <?php  } ?>
-              </tbody>
+                		}
 
+               	}
+
+                }?>
+               	<?php
+                if (isset($success)) {?>
+
+
+                	<?php if (count($success) > 0) {?>
+<span class="alert alert-success">
+
+                		<?php foreach ($success as $suc) {
+                			echo $suc."<br>";
+
+                		}?>
+                	</span>
+                <?php	}
+                 }?>
+
+          <h4>List Of Orders</h4>
+          <div class="table-responsive">
+          <table id="orderList" class="table table-striped table-responsive">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Delivered</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($row = mysqli_fetch_assoc($get)) { ?>
+                <input type="hidden" name="order-id" class="order-id" value="<?php $row['order_id']; ?>">
+                <tr>
+                  <td><img class="img-fluid img-thumbnail rounded" src="uploads/products/<?php echo $row['img_1'];?>"></td>
+                  <td><?php echo $row['product_name']; ?></td>
+                  <td><?php echo $row['product_price']; ?></td>
+                  <td><?php echo $row['quantity']; ?></td>
+                  <td><?php $price = $row['product_price']; $quantity = $row['quantity']; $total = $price * $quantity; echo $total; ?></td>
+                  <td><?php echo $row['user_name']; ?></td>
+                  <td><?php echo $row['datetime']; ?></td>
+                  <td class="state"><?php echo $row['status']; ?></td>
+                  <td><button class="btn btn-success" id="deliver"><i class="fa fa-check"></i></button></td>
+                  <td><button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button></td>
+                </tr>
+            <?php  } ?>
+              
+            </tbody>
           </table>
-
-          <script type="text/javascript">
-
-  $(document).ready(function() {
-
-      $('#proList').DataTable();
-    });
-
-        // "ajax":{
-
-        //     "url": "includes/prolist.inc.php",
-        //     "dataSrc": "",
-        // },
-        // "Columns": [
-
-        //       { "data": 'NAME' } ,
-
-        //       { "data": 'DESCR' },
-
-        //       { "data": 'CAT_ID' },
-
-        //       { "data": 'PRICE' },
-
-        //       { "data": 'DISC' },
-
-        //       { "data": 'QTY' }
-
-        //     ]
-
-
-
-
-
-</script>
-            </div>
-          </div>
-
+        </div>
+        	
         </div>
         <!-- /.container-fluid -->
 
       </div>
+      <script type="text/javascript">
+        $(document).ready(function() {
+
+        $('#orderList').DataTable();
+    });
+      </script>
+      <script type="text/javascript">
+        $("#deliver").click(function(){
+
+          var id = $(".").val();
+
+          $.ajax({
+
+            type: 'POST',
+            url: 'orders.action.php',
+            cache: false,
+            data: {id: id},
+            success: function(response){
+              location.reload();
+            }
+          });
+        });
+      </script>
       <!-- End of Main Content -->
 
       <!-- Footer -->
@@ -287,25 +314,6 @@ require_once 'includes/prolist.inc.php';
       </div>
     </div>
   </div>
-<div class="modal fade" id="prodelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirm Product Removal</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body" style="color: red" >Product cannot be recovered once deleted. Do you really want to delete?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <form method="post" action="">
-          <a class="btn btn-danger" name= "prodelete" href="productedit.php?delete=<?php echo $key['random']; ?>" value = "<?php echo $key['random']; ?>">Delete</a>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="assets/vendor/jquery/jquery.min.js"></script>
@@ -327,6 +335,5 @@ require_once 'includes/prolist.inc.php';
   <!-- Page level custom scripts -->
   <script src="assets/js/demo/chart-area-demo.js"></script>
   <script src="assets/js/demo/chart-pie-demo.js"></script>
-
  </body>
  </html>
